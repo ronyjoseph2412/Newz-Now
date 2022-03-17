@@ -5,7 +5,7 @@ export class NewsItem extends Component {
     let { url, title, author, imageurl , date} = this.props;
     return (
       <div>
-        <div className='grid grid-cols-3 bg-white rounded-lg border border-gray-200 hover:shadow-sm  dark:bg-gray-800 dark:border-gray-700 justify-between gap-2 hover:shadow-slate-900 lg:w-[600px] lg:h-[200px] items-center '>
+        <div className='grid grid-cols-3 bg-white rounded-lg border border-gray-200 hover:shadow-md dark:hover:shadow dark:bg-gray-800 dark:border-gray-700 justify-between gap-2 hover:shadow-slate-900 lg:w-[600px] lg:h-[200px] items-center transition duration-100 dark:hover:shadow-white'>
           <div className='col-span-2 flex flex-col space-y-5 p-2'>
             <div className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white cursor-pointer hover:underline hover:underline-offset-2"><a href={url} target="_blank" rel="noreferrer">{title}</a></div>
             <div>

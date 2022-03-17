@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Navbar(props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
+    <div className="sticky top-0 z-30">
       <nav className="bg-slate-900 dark:bg-[#212529] md:flex md:flex-row md:justify-between md:items-center md:space-x-2 md:pr-4">
         <div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,11 +125,7 @@ function Navbar(props) {
 
       </nav>
 
-      <header className="bg-white dark:bg-[#3c4043] shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-[#cdd1d4]">Top Headlines</h1>
-        </div>
-      </header>
+
     </div>
   );
 }

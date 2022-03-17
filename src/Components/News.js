@@ -24,52 +24,68 @@ export class News extends Component {
       totalResults:1,
       no_pages:1
     }
+    document.title=`Newz Now ~ ${((this.props.category).charAt(0)).toUpperCase() + this.props.category.slice(1)}`;
   }
     // this.componentDidMount loads after the entire 
     componentDidMount = async ()=>{
-      let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7765ca30f37345ae9dcae2f9c57b6d18&page=1&pageSize=${this.props.pageSize}`;
+      this.props.setProgress(0);
+      let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api}&page=1&pageSize=${this.props.pageSize}`;
       this.setState({loading:true});
       let data = await fetch(url);
       let parsedData = await data.json();
+      this.props.setProgress(70);
       this.setState({'articles':parsedData.articles,totalResults:parsedData.totalResults,loading:false,})
+      this.props.setProgress(100);
     }
     handlePrevClick = async ()=>{
-      let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7765ca30f37345ae9dcae2f9c57b6d18&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+      this.props.setProgress(0);
+      let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api}&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
       this.setState({loading:true});
       let data = await fetch(url);
       let parsedData = await data.json();
       this.setState()
+      this.props.setProgress(70);
       this.setState({
         page:this.state.page-1,
         'articles':parsedData.articles,
         loading:false,
       })
+      this.props.setProgress(100);
     }
     handleNextclick =async ()=>{
+      this.props.setProgress(0);
       if(this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)){
         console.log("No more results to show");
       }
       else{
-        let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7765ca30f37345ae9dcae2f9c57b6d18&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+        let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
       this.setState({loading:true});
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState()
+      this.props.setProgress(70);
         this.setState({
           page:this.state.page+1,
           'articles':parsedData.articles,
           loading:false,
         })
+      this.props.setProgress(100);
       }
       }
   
   render() {
     return (
+      <>
+      <header className="bg-white dark:bg-[#3c4043] shadow">
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-[#cdd1d4]">Top {((this.props.category).charAt(0)).toUpperCase() + this.props.category.slice(1)} Headlines</h1>
+      </div>
+    </header>
       <div className='dark:bg-slate-900' id="#top">
         {this.state.loading && <Spinners />}
       {(this.state.loading) ?"":  
       <div className='mx-auto container pt-3 space-x-3 space-y-5 grid grid-col-1 md:grid-cols-2 justify-center'>
-      <div className='py-5'>
+      <div className='py-5 mx-3'>
       <NewsItem key={this.state.articles[0].url} url={this.state.articles[0].url} title={this.state.articles[0].title.slice(0,100)} author={this.state.articles[0].source.name} imageurl={this.state.articles[0].urlToImage===null ? 'https://png.pngtree.com/png-vector/20201027/ourlarge/pngtree-breaking-news-banner-lower-png-image_2378724.jpg' : this.state.articles[0].urlToImage} date={this.state.articles[0].publishedAt} />
       </div>
       {this.state.articles.map((element)=>{
@@ -88,6 +104,7 @@ export class News extends Component {
         <button className='p-2 bg-slate-900 dark:bg-[#212529] text-white rounded-lg disabled:bg-slate-600 dark:disabled:bg-slate-600 disabled:cursor-not-allowed' disabled={this.state.page+1 > Math.ceil((this.state.totalResults)/this.props.pageSize)} onClick={this.handleNextclick} >Next &rarr;</button>
       </div>
       </div>
+      </>
     )
   }
 }
